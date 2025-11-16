@@ -1,5 +1,5 @@
 ### Interactive Supermarket Simulation with Association Rule Mining
-
+Deployed at https://interactive-supermarket.onrender.com/
 #### Author Information
 
 - **Name**: Bibek Yadav
