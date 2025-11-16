@@ -2,10 +2,10 @@
 
 #### Author Information
 
-- **Name**: [Your Full Name]
-- **Student ID**: [Your ID]
+- **Name**: Bibek Yadav
+- **Student ID**: 6416847
 - **Course**: CAI 4002 - Artificial Intelligence
-- **Semester**: Fall 2024
+- **Semester**: Fall 2025
 
 
 
