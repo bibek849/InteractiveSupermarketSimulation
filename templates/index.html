@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Supermarket - Association Rule Mining</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🛒 Interactive Supermarket Simulation</h1>
+            <p class="subtitle">Association Rule Mining with Apriori, Eclat & CLOSET Algorithms</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('shopping')">1. Shopping</button>
+            <button class="tab-btn" onclick="showTab('preprocess')">2. Preprocess</button>
+            <button class="tab-btn" onclick="showTab('mining')">3. Mining</button>
+            <button class="tab-btn" onclick="showTab('query')">4. Query</button>
+        </div>
+
+        <!-- Shopping Tab -->
+        <div id="shopping" class="tab-content active">
+            <div class="section">
+                <h2>Create Shopping Transactions</h2>
+                
+                <div class="product-grid">
+                    <!-- Products will be loaded here -->
+                </div>
+
+                <div class="current-cart">
+                    <h3>Current Cart</h3>
+                    <div id="cart-items"></div>
+                    <button class="btn btn-primary" onclick="addTransaction()">Add Transaction</button>
+                    <button class="btn btn-secondary" onclick="clearCart()">Clear Cart</button>
+                </div>
+
+                <div class="file-upload">
+                    <h3>Or Import CSV File</h3>
+                    <input type="file" id="csv-file" accept=".csv">
+                    <button class="btn btn-primary" onclick="uploadCSV()">Upload</button>
+                </div>
+
+                <div class="transactions-list">
+                    <h3>Current Transactions (<span id="transaction-count">0</span>)</h3>
+                    <div id="transactions-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preprocess Tab -->
+        <div id="preprocess" class="tab-content">
+            <div class="section">
+                <h2>Data Preprocessing</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Transactions</h4>
+                        <div class="stat-value" id="stat-total">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Cleaned Transactions</h4>
+                        <div class="stat-value" id="stat-cleaned">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Unique Products</h4>
+                        <div class="stat-value" id="stat-unique">0</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" onclick="runPreprocessing()">Run Preprocessing</button>
+
+                <div id="preprocessing-report" class="report hidden">
+                    <h3>Preprocessing Report</h3>
+                    <div class="report-content"></div>
+                </div>
+
+                <div id="cleaned-transactions" class="hidden">
+                    <h3>Cleaned Transactions</h3>
+                    <div id="cleaned-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mining Tab -->
+        <div id="mining" class="tab-content">
+            <div class="section">
+                <h2>Association Rule Mining</h2>
+                
+                <div class="parameters">
+                    <div class="param-group">
+                        <label>Minimum Support:</label>
+                        <input type="range" id="min-support" min="0.05" max="0.5" step="0.05" value="0.2">
+                        <span id="support-value">0.2</span>
+                    </div>
+                    <div class="param-group">
+                        <label>Minimum Confidence:</label>
+                        <input type="range" id="min-confidence" min="0.1" max="1.0" step="0.1" value="0.5">
+                        <span id="confidence-value">0.5</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" onclick="runMining()">Run Mining Algorithms</button>
+
+                <div id="mining-results" class="hidden">
+                    <h3>Performance Comparison</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Runtime (ms)</th>
+                                <th>Rules Generated</th>
+                                <th>Frequent Itemsets</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-body">
+                        </tbody>
+                    </table>
+
+                    <div class="chart-container">
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query Tab -->
+        <div id="query" class="tab-content">
+            <div class="section">
+                <h2>Product Association Query</h2>
+                
+                <div class="query-interface">
+                    <div class="query-input">
+                        <label>Select a product:</label>
+                        <select id="product-select">
+                            <option value="">Choose a product...</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="queryProduct()">Find Associations</button>
+                    </div>
+
+                    <div id="query-results" class="hidden">
+                        <h3>Customers who bought <span id="query-product"></span> also bought:</h3>
+                        <div id="associations-list"></div>
+                        <div id="recommendations" class="recommendations"></div>
+                    </div>
+                </div>
+
+                <div class="technical-details hidden">
+                    <h3>Technical Details</h3>
+                    <button class="btn btn-secondary" onclick="toggleTechnical()">Show/Hide Rules</button>
+                    <div id="technical-content" class="hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-actions">
+                <button class="btn btn-danger" onclick="resetAll()">Reset All Data</button>
+                <button class="btn btn-info" onclick="loadSampleData()">Load Sample Data</button>
+            </div>
+            <p>CAI 4002 - Artificial Intelligence | Association Rule Mining Project</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
