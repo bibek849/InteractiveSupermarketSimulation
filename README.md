@@ -142,7 +142,7 @@ interactive-supermarket/
 ├── uploads/                    # Upload directory for CSV files
 ├── requirements.txt           # Python dependencies
 ├── README.md                  # This file
-└── REPORT.pdf                # Detailed technical report
+                # Detailed technical report
 ```
 
 
